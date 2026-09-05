@@ -1,26 +1,128 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f7f7;
+  --foreground: #111111;
+  --secondary: #777777;
+  --border: #e5e5e5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-border: var(--border);
+  --font-sans: var(--font-alien-robot), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-alien-robot), sans-serif; }
+button, input, select { font-family: inherit; }
+button, select, input[type="checkbox"], summary { -webkit-tap-highlight-color: transparent; }
+button, select, summary { cursor: pointer; }
+button:disabled, select:disabled { cursor: not-allowed; }
+button, a, input, select, summary { outline-offset: 5px; }
+:focus-visible { outline: 2px solid var(--foreground); }
+button { transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease; }
+::selection { background: var(--foreground); color: var(--background); }
+
+.booking-shell { min-height: 100svh; padding-top: max(18px, env(safe-area-inset-top)); padding-bottom: env(safe-area-inset-bottom); }
+.booking-header { min-height: 142px; padding-top: 8px; }
+.back-button { color: var(--secondary); margin-top: 6px; }
+.back-button:hover { background: var(--border); color: var(--foreground); }
+.logo { display: flex; flex-direction: column; align-items: center; }
+.logo-booking { width: 210px; justify-self: center; }
+.logo-booking .logo-mark { width: 140px; height: 140px; margin-top: -20px; }
+.logo-booking .logo-word { font-size: 9px; letter-spacing: 0.65em; padding-left: 0.65em; align-self: flex-end; margin-top: -25px; transform: translateX(30px); }
+.logo-landing { width: 290px; max-width: 100%; }
+.logo-landing .logo-mark { width: 248px; height: 248px; }
+.logo-landing .logo-word { margin-top: -22px; font-size: 23px; letter-spacing: 0.48em; padding-left: 0.48em; }
+.landing-content { padding-top: clamp(110px, 19svh, 190px); }
+.landing-nav { margin-top: clamp(95px, 17svh, 150px); gap: 20px; font-size: 12px; letter-spacing: 0.42em; }
+.landing-nav button { min-height: 44px; }
+.landing-nav button:hover { color: var(--secondary); }
+.booking-footer { flex-shrink: 0; }
+
+.primary-button { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 42px; padding: 5px 10px; border: 1px solid var(--foreground); border-radius: 23px; font-size: 25px; line-height: 1.1; text-align: center; }
+.primary-button:hover { color: var(--background); background: var(--foreground); }
+.primary-button:disabled { opacity: 0.35; }
+.primary-button-filled { background: var(--foreground); color: var(--background); }
+.primary-button-filled:hover { opacity: 0.8; }
+.customer-form { padding-top: clamp(26px, 5svh, 54px); }
+.customer-fields { gap: clamp(32px, 6svh, 56px); }
+.booking-input { width: 100%; height: 40px; min-width: 0; border: 1px solid var(--border); border-radius: 7px; background: transparent; padding: 6px 12px; color: var(--foreground); text-align: right; font-size: 16px; }
+.booking-input::placeholder { opacity: 1; color: var(--secondary); }
+select.booking-input { text-align-last: right; padding-right: 12px; }
+.booking-input[aria-invalid="true"] { border-color: var(--foreground); }
+.field-error { color: var(--secondary); }
+.customer-next { margin-top: auto; align-self: center; width: calc(100% - 24px); margin-bottom: 0; font-size: clamp(16px, 5vw, 20px); white-space: nowrap; }
+.customer-fields { margin-bottom: 44px; }
+
+.calendar-step { padding: 0 8px; }
+.calendar-picker { border: 1px solid var(--border); border-radius: 16px; padding: 14px 12px; font-size: 12px; }
+.calendar-arrow { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; font-size: 23px; border-radius: 50%; }
+.calendar-arrow:hover:enabled { background: var(--border); }
+.calendar-arrow:disabled { opacity: 0.25; }
+.calendar-day { display: flex; align-items: center; justify-content: center; justify-self: center; width: 36px; height: 38px; margin: 2px 0; border-radius: 9999px; font-size: 12px; }
+.calendar-day:hover:enabled { background: var(--border); }
+.calendar-day.is-selected, .calendar-day.is-selected:hover { background: var(--foreground); color: var(--background); }
+.calendar-day:disabled, .calendar-day.other-month { color: var(--secondary); opacity: 0.4; }
+.calendar-compact { margin: 0 14px; padding-top: 0; padding-bottom: 0; border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; mask-image: linear-gradient(to bottom, transparent 0%, black 75%); }
+.calendar-compact .calendar-day { height: 32px; }
+.availability-heading { margin-top: 48px; }
+.date-heading { font-size: clamp(19px, 6vw, 25px); line-height: 1.2; white-space: nowrap; }
+.availability-list { gap: 26px; margin-top: 34px; }
+.availability-slot { border: 1px solid var(--foreground); border-radius: 23px; padding: 12px 5px; min-height: 49px; font-size: clamp(16px, 5.4vw, 22px); line-height: 1.1; white-space: nowrap; }
+.availability-slot:hover { background: var(--border); }
+.availability-slot.is-selected { color: var(--background); background: var(--foreground); }
+.time-step { padding-top: 6px; }
+.time-availability-list { gap: 25px; margin-top: 34px; }
+.book-from { margin-top: 36px; margin-bottom: 20px; font-size: 38px; line-height: 1.03; }
+.time-selector { justify-self: center; width: 94px; height: 90px; border: 1px solid var(--foreground); border-radius: 22px; overflow: hidden; }
+.time-selector:focus-within { outline: 2px solid var(--foreground); outline-offset: 4px; }
+.time-display, .time-select { grid-area: 1 / 1; min-width: 0; width: 100%; height: 100%; }
+.time-display { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 10px; font-size: 23px; line-height: 1.1; }
+.time-select { opacity: 0; }
+.time-selector:has(select:disabled) { border-color: var(--border); }
+.review-button { width: calc(100% - 24px); align-self: center; margin-top: 25px; font-size: 29px; }
+
+.screen-title { font-size: 44px; font-weight: 600; line-height: 1.1; margin: 8px 0 16px; }
+.summary-details { gap: 24px; }
+.summary-details dd { font-size: 23px; line-height: 1.15; }
+.summary-details dd.text-secondary { font-size: 10px; }
+.summary-label { font-size: 13px; letter-spacing: 0.62em; line-height: 1.6; }
+.summary-total { margin-top: 32px; }
+.deposit-note { margin-top: 18px; font-size: 10px; line-height: 1.25; }
+.terms-row { margin-top: 8px; min-height: 36px; }
+.terms-row button { min-height: 36px; }
+.payment-action { margin: 5px 12px 0; }
+.payment-button { font-size: 13px; gap: 5px; min-height: 42px; }
+.confirmation-message { margin-top: 24px; }
+.booking-dialog { margin: auto; width: calc(100% - 36px); max-width: 420px; max-height: 85svh; overflow-y: auto; border: 1px solid var(--border); border-radius: 16px; color: var(--foreground); background: var(--background); }
+.booking-dialog::backdrop { background: rgb(17 17 17 / 35%); backdrop-filter: blur(4px); }
+
+@media (min-width: 640px) {
+  .booking-shell { min-height: max(820px, 100svh); padding-top: max(28px, calc((100svh - 810px) / 2)); }
+  .booking-footer { padding-bottom: 24px; }
+  .customer-next { margin-top: 48px; }
+  .landing-content { padding-top: clamp(125px, 19svh, 220px); }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (max-width: 359px) {
+  .booking-shell { padding-left: 18px; padding-right: 18px; }
+  .logo-landing .logo-word { font-size: 21px; }
+  .booking-header { min-height: 135px; }
+  .primary-button { font-size: 21px; }
+  .customer-next { font-size: 16px; }
+  .time-controls { gap: 12px; padding: 0; }
+  .time-selector { width: 82px; height: 84px; }
+  .time-display { font-size: 20px; }
+  .summary-details dd { font-size: 20px; }
+  .payment-button { font-size: 13px; }
+  .calendar-day { width: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
