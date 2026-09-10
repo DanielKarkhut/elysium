@@ -1,5 +1,30 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Booking refresh recovery
+
+The booking flow saves a versioned draft to `sessionStorage` under
+`elysium:booking-session:v1`. Inputs, navigation, calendar month, and dialog changes
+renew a 20-minute inactivity deadline. Refreshing restores the existing deadline;
+it does not extend it. Expiry clears the draft and returns to the welcome screen,
+including when a suspended tab becomes active again.
+
+Restoration preserves partial inputs, selected times, the open info/terms dialog,
+and the completed demo confirmation reference. Validation messages are recalculated.
+Terms acceptance exists only in memory and is never saved. Every refresh clears
+acceptance, including for drafts saved by older versions, and returns an unfinished
+payment to review so the user must accept again. During the current page session,
+changing booking details also invalidates acceptance. `BOOKING_TERMS_VERSION` in
+`lib/booking-session.ts` should be bumped whenever the displayed terms change.
+Completed confirmations remain viewable after refresh. Starting another booking
+clears the saved draft.
+
+Storage is tab-scoped and may be disabled by the browser; the form remains usable
+and displays a recovery warning if storage fails. This is frontend draft recovery,
+not authentication, a reservation, or proof of payment. Real availability and
+payment status must be verified by a backend when those features are added.
+
+Run `npm test` with Node.js 22.18+ for the session restoration regression tests.
+
 ## Getting Started
 
 First, run the development server:
