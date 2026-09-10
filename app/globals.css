@@ -51,9 +51,9 @@ button { transition: background-color 160ms ease, color 160ms ease, opacity 160m
 .primary-button-filled:hover { opacity: 0.8; }
 .customer-form { padding-top: clamp(26px, 5svh, 54px); }
 .customer-fields { gap: clamp(32px, 6svh, 56px); }
-.booking-input { width: 100%; height: 40px; min-width: 0; border: 1px solid var(--border); border-radius: 7px; background: transparent; padding: 6px 12px; color: var(--foreground); text-align: right; font-size: 16px; }
+.booking-input { width: 100%; height: 40px; min-width: 0; border: 1px solid var(--border); border-radius: 7px; background: transparent; padding: 6px 12px; color: var(--foreground); text-align: left; font-size: 16px; }
 .booking-input::placeholder { opacity: 1; color: var(--secondary); }
-select.booking-input { text-align-last: right; padding-right: 12px; }
+select.booking-input { text-align-last: left; padding-right: 12px; }
 .booking-input[aria-invalid="true"] { border-color: var(--foreground); }
 .field-error { color: var(--secondary); }
 .customer-next { margin-top: auto; align-self: center; width: calc(100% - 24px); margin-bottom: 0; font-size: clamp(16px, 5vw, 20px); white-space: nowrap; }

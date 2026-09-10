@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { dateKey, startOfDay } from "@/lib/booking";
 
-type Props = { selected: Date | null; today: Date; onSelect: (date: Date) => void; compact?: boolean };
+type Props = { selected: Date | null; today: Date; month: Date; onMonthChange: (month: Date) => void; onSelect: (date: Date) => void; compact?: boolean };
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-export function CalendarPicker({ selected, today, onSelect, compact = false }: Props) {
-  const [month, setMonth] = useState(() => new Date((selected ?? today).getFullYear(), (selected ?? today).getMonth(), 1));
+export function CalendarPicker({ selected, today, month, onMonthChange, onSelect, compact = false }: Props) {
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
   // Monday-first grid keeps September 9, 2026 correctly aligned to Wednesday.
@@ -21,14 +19,14 @@ export function CalendarPicker({ selected, today, onSelect, compact = false }: P
   return (
     <div className={`calendar-picker ${compact ? "calendar-compact" : ""}`}>
       {!compact && <div className="mb-3 flex items-center justify-between gap-2">
-        <button className="calendar-arrow" aria-label="Previous month" disabled={month <= earliest} onClick={() => setMonth(new Date(year, monthIndex - 1, 1))}>‹</button>
+        <button className="calendar-arrow" aria-label="Previous month" disabled={month <= earliest} onClick={() => onMonthChange(new Date(year, monthIndex - 1, 1))}>‹</button>
         <div className="flex items-center gap-3">
-          <select aria-label="Month" className="calendar-month rounded-lg border border-border bg-transparent px-2 py-1" value={monthIndex} onChange={(event) => setMonth(new Date(year, Number(event.target.value), 1))}>
+          <select aria-label="Month" className="calendar-month rounded-lg border border-border bg-transparent px-2 py-1" value={monthIndex} onChange={(event) => onMonthChange(new Date(year, Number(event.target.value), 1))}>
             {MONTHS.map((label, i) => <option key={label} value={i} disabled={new Date(year, i, 1) < earliest || new Date(year, i, 1) > latest}>{label}</option>)}
           </select>
           <span>{year}</span>
         </div>
-        <button className="calendar-arrow" aria-label="Next month" disabled={month >= latest} onClick={() => setMonth(new Date(year, monthIndex + 1, 1))}>›</button>
+        <button className="calendar-arrow" aria-label="Next month" disabled={month >= latest} onClick={() => onMonthChange(new Date(year, monthIndex + 1, 1))}>›</button>
       </div>}
       {!compact && <div className="mb-1 grid grid-cols-7 text-center text-[9px] text-secondary" aria-hidden="true">
         {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day) => <span key={day} className="py-2">{day}</span>)}
