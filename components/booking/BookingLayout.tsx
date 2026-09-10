@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import footerArtwork from "@/public/elysium_v1/images/elysium_high_res_footer.jpg";
 import { Logo } from "./Logo";
 
@@ -13,7 +13,7 @@ export function BookingLayout({ step, onBack, children }: { step: number; onBack
   }, [step]);
 
   return (
-    <div className="booking-shell mx-auto flex w-full max-w-[390px] flex-col px-6 sm:max-w-[430px] sm:px-10">
+    <div className="booking-shell mx-auto flex w-full max-w-[390px] flex-col px-6 sm:max-w-[430px] sm:px-10" style={{ "--footer-image-ratio": footerArtwork.height / footerArtwork.width } as CSSProperties}>
       {step > 0 && (
         <header className="booking-header grid grid-cols-[36px_1fr_36px] items-start">
           {step < 7 ? <button className="back-button flex size-9 items-center justify-center rounded-full" onClick={onBack} aria-label="Go back">
@@ -27,7 +27,7 @@ export function BookingLayout({ step, onBack, children }: { step: number; onBack
         <span className="sr-only" aria-live="polite">Step {step + 1} of 8: {STEP_NAMES[step]}</span>
         {children}
       </main>
-      <footer className="booking-footer mt-auto pt-5 pb-3">
+      <footer className="booking-footer">
         <Image src={footerArtwork} sizes="(max-width: 639px) 90vw, 350px" alt="Elysium. Sound Recording Field & Creative Abyss." className="h-auto w-full mix-blend-multiply" />
       </footer>
     </div>
