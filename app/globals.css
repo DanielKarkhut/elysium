@@ -27,7 +27,7 @@ button, a, input, select, summary { outline-offset: 5px; }
 button { transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease; }
 ::selection { background: var(--foreground); color: var(--background); }
 
-.booking-shell { min-height: 100svh; padding-top: max(18px, env(safe-area-inset-top)); padding-bottom: env(safe-area-inset-bottom); }
+.booking-shell { --booking-width: 390px; --booking-gutter: 24px; --footer-padding: 8px; --footer-height: calc((min(100vw, var(--booking-width)) - 2 * var(--booking-gutter)) * var(--footer-image-ratio) + 2 * var(--footer-padding)); min-height: 100svh; padding-top: max(18px, env(safe-area-inset-top)); padding-bottom: calc(var(--footer-height) + env(safe-area-inset-bottom)); }
 .booking-header { min-height: 142px; padding-top: 8px; }
 .back-button { color: var(--secondary); margin-top: 6px; }
 .back-button:hover { background: var(--border); color: var(--foreground); }
@@ -42,7 +42,7 @@ button { transition: background-color 160ms ease, color 160ms ease, opacity 160m
 .landing-nav { margin-top: clamp(95px, 17svh, 150px); gap: 20px; font-size: 12px; letter-spacing: 0.42em; }
 .landing-nav button { min-height: 44px; }
 .landing-nav button:hover { color: var(--secondary); }
-.booking-footer { flex-shrink: 0; }
+.booking-footer { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; align-items: flex-end; width: 100%; max-width: var(--booking-width); padding: var(--footer-padding) var(--booking-gutter) calc(var(--footer-padding) + env(safe-area-inset-bottom)); background: var(--background); }
 
 .primary-button { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 42px; padding: 5px 10px; border: 1px solid var(--foreground); border-radius: 23px; font-size: 25px; line-height: 1.1; text-align: center; }
 .primary-button:hover { color: var(--background); background: var(--foreground); }
@@ -103,14 +103,13 @@ select.booking-input { text-align-last: right; padding-right: 12px; }
 .booking-dialog::backdrop { background: rgb(17 17 17 / 35%); backdrop-filter: blur(4px); }
 
 @media (min-width: 640px) {
-  .booking-shell { min-height: max(820px, 100svh); padding-top: max(28px, calc((100svh - 810px) / 2)); }
-  .booking-footer { padding-bottom: 24px; }
+  .booking-shell { --booking-width: 430px; --booking-gutter: 40px; min-height: max(820px, 100svh); padding-top: max(28px, calc((100svh - 810px) / 2)); }
   .customer-next { margin-top: 48px; }
   .landing-content { padding-top: clamp(125px, 19svh, 220px); }
 }
 
 @media (max-width: 359px) {
-  .booking-shell { padding-left: 18px; padding-right: 18px; }
+  .booking-shell { --booking-gutter: 18px; padding-left: 18px; padding-right: 18px; }
   .logo-landing .logo-word { font-size: 21px; }
   .booking-header { min-height: 135px; }
   .primary-button { font-size: 21px; }
