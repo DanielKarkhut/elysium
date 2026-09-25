@@ -3,9 +3,10 @@ import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import footerArtwork from "@/public/elysium_v1/images/elysium_high_res_footer.jpg";
 import { Logo } from "./Logo";
 
-const STEP_NAMES = ["Welcome", "Customer information", "Select a date", "Available time ranges", "Select your times", "Review booking", "Payment", "Booking confirmation"];
+const STEP_NAMES = ["Welcome", "Customer information", "Select a date", "Select start and end times", "Review booking", "Booking status"];
 
 export function BookingLayout({ step, onBack, children }: { step: number; onBack: () => void; children: ReactNode }) {
+  const displayStep = step === 7 ? 5 : step;
   const main = useRef<HTMLElement>(null);
   useEffect(() => {
     main.current?.focus({ preventScroll: true });
@@ -23,8 +24,8 @@ export function BookingLayout({ step, onBack, children }: { step: number; onBack
           <span />
         </header>
       )}
-      <main ref={main} tabIndex={-1} aria-label={STEP_NAMES[step]} style={{ outline: "none" }} className={`booking-main flex flex-1 flex-col step-${step}`}>
-        <span className="sr-only" aria-live="polite">Step {step + 1} of 8: {STEP_NAMES[step]}</span>
+      <main ref={main} tabIndex={-1} aria-label={STEP_NAMES[displayStep]} style={{ outline: "none" }} className={`booking-main flex flex-1 flex-col step-${step}`}>
+        <span className="sr-only" aria-live="polite">{step < 7 ? `Step ${displayStep + 1} of 5: ` : ""}{STEP_NAMES[displayStep]}</span>
         {children}
       </main>
       <footer className="booking-footer">

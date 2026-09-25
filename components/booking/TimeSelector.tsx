@@ -1,13 +1,12 @@
-import { formatTime } from "@/lib/booking";
+import { clockTime, timeOptionLabel } from "@/lib/booking-availability";
 
-export function TimeSelector({ label, value, options, onChange, disabled = false }: { label: string; value: number | null; options: number[]; onChange: (value: number) => void; disabled?: boolean }) {
-  return <div className="time-selector grid">
-    <span className={`time-display ${value === null ? "text-secondary" : ""}`} aria-hidden="true">
-      {value !== null ? <>{formatTime(value).split(" ")[0]}<br />{formatTime(value).split(" ")[1]}</> : <span className="text-[11px]">{label}</span>}
-    </span>
-    <select className="time-select" aria-label={`${label} time`} value={value ?? ""} disabled={disabled} onChange={(event) => onChange(Number(event.target.value))}>
+export function TimeSelector({ label, value, options, day, onChange, disabled = false }: { label: string; value: string; options: string[]; day: string; onChange: (value: string) => void; disabled?: boolean }) {
+  const [time, period] = value ? clockTime(value).split(" ") : [];
+  return <div className={`time-selector grid${disabled ? " is-disabled" : ""}`}>
+    <span className="time-display" aria-hidden="true">{value && <>{time}<br />{period}</>}</span>
+    <select className="time-select" aria-label={`${label} time`} required value={value} disabled={disabled} onChange={event => onChange(event.target.value)}>
       <option value="" disabled>{label} time</option>
-      {options.map((minutes) => <option key={minutes} value={minutes}>{formatTime(minutes)}{minutes >= 1440 ? " (+1 day)" : ""}</option>)}
+      {options.map(value => <option key={value} value={value}>{timeOptionLabel(value, day)}</option>)}
     </select>
   </div>;
 }
